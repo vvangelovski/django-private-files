@@ -27,7 +27,7 @@ def _handle_basic(request, instance, field_name):
     statobj = os.stat(field_file.path)
     if not was_modified_since(request.META.get('HTTP_IF_MODIFIED_SINCE'),
                               statobj.st_mtime, statobj.st_size):
-        return HttpResponseNotModified(mimetype=mimetype)
+        return HttpResponseNotModified(content_type=mimetype)
     basename = os.path.basename(field_file.path)
     field_file.open()
     response = HttpResponse(field_file.file.read(), content_type=mimetype)
