@@ -1,7 +1,6 @@
 import mimetypes
 import os
-import posixpath
-import re
+import six
 from urllib.parse import unquote
 
 from django.http import HttpResponse, Http404, HttpResponseRedirect, HttpResponseNotModified
@@ -52,7 +51,7 @@ def _handle_nginx(request, instance, field_name):
     response['Content-Type'] = mimetype
     if field_file.attachment:
         response['Content-Disposition'] = 'attachment; filename=%s' % basename
-    response["X-Accel-Redirect"] = "/%s" % unicode(field_file)
+    response["X-Accel-Redirect"] = "/%s" % six.text_type(field_file)
     response['Content-Length'] = statobj.st_size
     return response
 
