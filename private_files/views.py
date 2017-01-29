@@ -12,6 +12,7 @@ from django.views.static import was_modified_since
 from django.utils.http import http_date, parse_http_date
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.core.cache import cache
 
 from private_files.signals import pre_download
 
@@ -88,6 +89,12 @@ def get_file(request, app_label, model_name, field_name, object_id, filename):
     model = apps.get_model(app_label, model_name)
     instance = get_object_or_404(model, pk=unquote(object_id))
     condition = getattr(instance, field_name).condition
+    single_use = getattr(instance, field_name).single_use
+    if single_use:
+        value = cache.get(request.GET.get('access-key', 'no-access-key'), None)
+        cache.delete(request.GET.get('access-key', 'no-access-key'))
+        if value != '%s-%s-%s-%s-%s' % (app_label, model_name, field_name, object_id, filename):
+            raise PermissionDenied()
     if not model:
         raise Http404("")
     if not hasattr(instance, field_name):
