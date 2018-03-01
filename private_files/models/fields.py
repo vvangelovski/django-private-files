@@ -1,7 +1,10 @@
 import os
 import uuid
 from django.db.models.fields.files import FileField, ImageField, ImageFieldFile, FieldFile
-from django.core.urlresolvers import reverse
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 from django.core.cache import cache
 
 PROTECTION_METHODS = ['basic', 'nginx', 'lighttpd', 'apache']

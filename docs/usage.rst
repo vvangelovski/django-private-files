@@ -26,7 +26,7 @@ need to pass your own callable to the ``condition`` parameter::
 
 		def is_owner(request, instance):
 		    return (not request.user.is_anonymous()) and request.user.is_authenticated and
-				   instance.owner.pk = request.user.pk
+				   instance.owner.pk == request.user.pk
 
 		class FileSubmission(models.Model):
 		    description = models.CharField("description", max_length = 200)
