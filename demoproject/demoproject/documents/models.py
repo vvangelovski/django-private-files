@@ -4,7 +4,12 @@ from private_files.models.fields import PrivateFileField
 
 
 def is_owner(request, instance):
-    return (not request.user.is_anonymous()) and request.user.is_authenticated and instance.owner.pk == request.user.pk
+    try:
+        # django < 2.0
+        return (not request.user.is_anonymous()) and request.user.is_authenticated and instance.owner.pk == request.user.pk
+    except TypeError:
+        #django >= 2.0
+        return (not request.user.is_anonymous) and request.user.is_authenticated and instance.owner.pk == request.user.pk
 
 # Create your models here.
 class Document(models.Model):
