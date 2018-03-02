@@ -17,7 +17,7 @@ jobs:
         - checkout
 
         - run:
-            name: install dependencies django 1.11
+            name: install dependencies
             command: |
               python3 -m venv venv
               . venv/bin/activate
@@ -65,3 +65,10 @@ jobs:
         - store_artifacts:
             path: test-reports
             destination: test-reports
+
+workflows:
+  version: 2
+  one_and_two:
+    jobs:
+      - django-1.11
+      - django-2.0
