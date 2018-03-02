@@ -14,7 +14,7 @@ jobs:
       - checkout
 
       - run:
-          name: install dependencies 1.11
+          name: install dependencies Django 1.11
           command: |
             python3 -m venv venv
             . venv/bin/activate
@@ -22,7 +22,7 @@ jobs:
             pip install -r demoproject/requirements/django-1.11.txt
 
       - run:
-          name: run tests django 1.11
+          name: run tests Django 1.11
           command: |
             . venv/bin/activate
             cd ~/repo/demoproject
@@ -33,13 +33,14 @@ jobs:
           destination: test-reports-1.11
 
       - run:
-          name: install dependencies 2.0
+          name: install dependencies Django 2.0
           command: |
             cd ~/repo
+            . venv/bin/activate
             pip install -r demoproject/requirements/django-2.0.txt
 
       - run:
-          name: run tests django 2.0
+          name: run tests Django 2.0
           command: |
             . venv/bin/activate
             cd ~/repo/demoproject
