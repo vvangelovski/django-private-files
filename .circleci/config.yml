@@ -25,7 +25,7 @@ jobs:
               pip install -r demoproject/requirements/django-1.11.txt
 
         - run:
-            name: run tests django 1.11 basicserver
+            name: run tests
             command: |
               . venv/bin/activate
               cd ~/repo/demoproject
@@ -33,7 +33,7 @@ jobs:
 
         - store_artifacts:
             path: test-reports
-            destination: test-reports-django-1.11-basicserver
+            destination: test-reports
 
   django-2.0:
     build:
