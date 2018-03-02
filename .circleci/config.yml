@@ -4,71 +4,47 @@
 #
 version: 2
 jobs:
-  django-1.11:
-    build:
-      docker:
-        # specify the version you desire here
-        # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-        - image: circleci/python:3.6.1
+  build:
+    docker:
+      - image: circleci/python:3.6.1
 
-      working_directory: ~/repo
+    working_directory: ~/repo
 
-      steps:
-        - checkout
+    steps:
+      - checkout
 
-        - run:
-            name: install dependencies
-            command: |
-              python3 -m venv venv
-              . venv/bin/activate
-              python3 setup.py develop
-              pip install -r demoproject/requirements/django-1.11.txt
+      - run:
+          name: install dependencies 1.11
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            python3 setup.py develop
+            pip install -r demoproject/requirements/django-1.11.txt
 
-        - run:
-            name: run tests
-            command: |
-              . venv/bin/activate
-              cd ~/repo/demoproject
-              ./manage.py test demoproject.documents --settings=demoproject.settings.basicserver
+      - run:
+          name: run tests django 1.11
+          command: |
+            . venv/bin/activate
+            cd ~/repo/demoproject
+            ./manage.py test demoproject.documents --settings=demoproject.settings.basicserver
 
-        - store_artifacts:
-            path: test-reports
-            destination: test-reports
+      - store_artifacts:
+          path: test-reports
+          destination: test-reports-1.11
 
-  django-2.0:
-    build:
-      docker:
-        # specify the version you desire here
-        # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-        - image: circleci/python:3.6.1
+      - run:
+          name: install dependencies 2.0
+          command: |
+            cd ~/repo
+            pip install -r demoproject/requirements/django-2.0.txt
 
-      working_directory: ~/repo
+      - run:
+          name: run tests django 2.0
+          command: |
+            . venv/bin/activate
+            cd ~/repo/demoproject
+            ./manage.py test demoproject.documents --settings=demoproject.settings.basicserver
 
-      steps:
-        - checkout
-
-        - run:
-            name: install dependencies
-            command: |
-              python3 -m venv venv
-              . venv/bin/activate
-              python3 setup.py develop
-              pip install -r demoproject/requirements/django-2.0.txt
-
-        - run:
-            name: run tests
-            command: |
-              . venv/bin/activate
-              cd ~/repo/demoproject
-              ./manage.py test demoproject.documents --settings=demoproject.settings.basicserver
-
-        - store_artifacts:
-            path: test-reports
-            destination: test-reports
-
-workflows:
-  version: 2
-  one_and_two:
-    jobs:
-      - django-1.11
-      - django-2.0
+      - store_artifacts:
+          path: test-reports
+          destination: test-reports-2.0
