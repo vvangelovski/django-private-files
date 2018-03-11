@@ -1,0 +1,1 @@
+default_app_config = 'private_files.tests.testapp.apps.TestappConfig'

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 import factory
 from faker import Faker
-from ..models import Document
+from private_files.tests.testapp.models import Document
 
 
 class UserFactory(factory.DjangoModelFactory):

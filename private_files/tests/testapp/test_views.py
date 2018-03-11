@@ -1,10 +1,11 @@
 from django.test import TestCase
-from .factories import UserFactory, DocumentFactory
+
 
 class TestFileProtection(TestCase):
 
     @classmethod
     def setUpClass(cls):
+        from .factories import UserFactory, DocumentFactory
         super(TestFileProtection, cls).setUpClass()
         cls.first_user = UserFactory.create(username='first', email='first@example.com')
         cls.second_user = UserFactory.create(username='second', email='second@example.com')
