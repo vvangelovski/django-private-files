@@ -1,2 +1,1 @@
 django<=2.1
--e file:.#egg=django-private-files
