@@ -1,2 +1,2 @@
 -r base.txt
-django==1.11
+django<2.0
