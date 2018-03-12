@@ -5,7 +5,7 @@ try:
     from django.urls import reverse_lazy
 except ImportError:
     from django.core.urlresolvers import reverse_lazy
-from django.core.cache import cache
+
 
 PROTECTION_METHODS = ['basic', 'nginx', 'lighttpd', 'apache']
 
@@ -20,6 +20,7 @@ class PrivateFieldFile(FieldFile):
         filename = os.path.basename(self.path)
         url = reverse_lazy('private_files-file', args=[app_label, model_name, field_name, pk, filename])
         if self.field.single_use:
+            from django.core.cache import cache
             access_key = uuid.uuid4().hex
             cache.set(access_key, '%s-%s-%s-%s-%s' % (app_label, model_name, field_name, pk, filename), 3600)
             url += '?access-key=' + access_key
