@@ -1,4 +1,7 @@
-from urllib.parse import unquote
+try:
+    from urllib.parse import unquote
+except ImportError:
+    from urllib import unquote
 
 from django.conf import settings
 from django.http import Http404

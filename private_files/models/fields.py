@@ -2,9 +2,9 @@ import os
 import uuid
 from django.db.models.fields.files import FileField, ImageField, ImageFieldFile, FieldFile
 try:
-    from django.urls import reverse
+    from django.urls import reverse_lazy
 except ImportError:
-    from django.core.urlresolvers import reverse
+    from django.core.urlresolvers import reverse_lazy
 from django.core.cache import cache
 
 PROTECTION_METHODS = ['basic', 'nginx', 'lighttpd', 'apache']
@@ -18,7 +18,7 @@ class PrivateFieldFile(FieldFile):
         field_name = self.field.name
         pk = self.instance.pk
         filename = os.path.basename(self.path)
-        url = reverse('private_files-file', args=[app_label, model_name, field_name, pk, filename])
+        url = reverse_lazy('private_files-file', args=[app_label, model_name, field_name, pk, filename])
         if self.field.single_use:
             access_key = uuid.uuid4().hex
             cache.set(access_key, '%s-%s-%s-%s-%s' % (app_label, model_name, field_name, pk, filename), 3600)

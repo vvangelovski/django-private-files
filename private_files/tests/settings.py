@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
+from django.utils.translation import ugettext_lazy as _
 
 import os
 
@@ -70,9 +71,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'demoproject.wsgi.application'
-
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -83,6 +81,7 @@ DATABASES = {
     }
 }
 
+WSGI_APPLICATION = 'private_file.wsgi.application'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -108,11 +107,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+
+
 TIME_ZONE = 'UTC'
+USE_I18N = False
 
-USE_I18N = True
-
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 

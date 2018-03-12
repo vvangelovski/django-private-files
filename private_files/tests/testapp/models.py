@@ -13,6 +13,6 @@ def is_owner(request, instance):
 
 # Create your models here.
 class Document(models.Model):
-    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    owner = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     title = models.CharField(max_length=100, blank=False)
     attachment = PrivateFileField(upload_to='attachments', condition=is_owner)
