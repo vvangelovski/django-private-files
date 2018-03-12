@@ -2,7 +2,7 @@
 django-private-files
 =====================
 
-.. image:: https://img.shields.io/travis/vvangelovski/django-private-files.svg   :alt: Travis
+![Travis](https://img.shields.io/travis/vvangelovski/django-private-files.svg)
 
 This application provides utilities for controlling access to static files based on
 conditions you can specify within your Django application.
@@ -24,4 +24,4 @@ It's currently been tested with Django (1.9, 1.10, 1.11 and 2.0), Apache and Ngi
 versions of django. Cherokee and lighttpd use the same mechanism as Apache mod_xsendfile, so
 it should work, but it's not been tested or documented.
 
-The full documentation for the project can be found on `Read the Docs <http://django-private-files.rtfd.org/>`_ .
+The full documentation for the project can be found on [Read the Docs](http://django-private-files.rtfd.org/)
