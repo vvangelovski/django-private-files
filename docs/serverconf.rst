@@ -13,7 +13,7 @@ All of the bellow examples assume that:
 Apache
 ------------
 
-If you serve your static content with Apache and have mod_xsendfile you can set ``PRIVATE_DOWNLOAD_HANDLER`` to ``private_files.handlers.x_sendfile``. Turn
+If you serve your static content with Apache and have mod_xsendfile you can set ``PRIVATE_DOWNLOAD_HANDLER`` to ``'private_files.handlers.x_sendfile'``. Turn
 ``XSendFile`` on and deny access to the directory where you store your protected files (the value of ``upload_to`` appended to ``MEDIA_ROOT``).
 Here's an exmple of a vhost configuration with mod_xsendfile and mod_wsgi:
 
@@ -53,48 +53,9 @@ Here's an exmple of a vhost configuration with mod_xsendfile and mod_wsgi:
 		</VirtualHost>
 
 
-lighttpd
-------------
-
-Lighttpd has the same mechanism of controlling access to files from a proxy backend. The following example
-proxies request to django running on fcgi:
-
-.. code-block:: lighty
-
-
-		$HTTP["host"] =~ "^django.test$" {
-			server.errorlog = "/var/log/lighttpd/test-error.log"
-			accesslog.filename = "/var/log/lighttpd/test-access.log"
-
-			alias.url = (
-               "/media" => "/media/psf/Home/Projects/django-private-files/testproject/static/",
-			)
-			
-			fastcgi.server = (
-		 	   "/django.fcgi" => (
-		        	"main" => (
-                    # Use host / port instead of socket for TCP fastcgi
-		        	"allow-x-send-file" => "enable", 
-			   	 	"host" => "127.0.0.1",
-		            "port" => 3033,
-		            "check-local" => "disable",
-		        	)
-		    	),
-			)
-			
-			url.access-deny = ( "/media/uploads/", "/media/downloadables/" )
-
-			url.rewrite-once = (
-		 		"^(/media.*)$" => "$1",
-				"^/django.fcgi(/.*)$" => "django.fcgi$1",
-		    	"^(/.*)$" => "django.fcgi$1",
-				)
-		}
-
-
 Nginx
 -----------
-When using Nginx ``PRIVATE_DOWNLOAD_HANDLER`` needs to be set to ``private_files.handlers.x_accel_redirect``.
+When using Nginx ``PRIVATE_DOWNLOAD_HANDLER`` needs to be set to ``'private_files.handlers.x_accel_redirect'``.
 Use the ``internal`` directive like in this example:
 
 .. code-block:: nginx
