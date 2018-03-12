@@ -3,10 +3,12 @@ python:
   - "2.7"
   - "3.5"
   - "3.6"
-  - "3.7-dev"  # 3.7 development branch
+#  - "3.7-dev"  # 3.7 development branch
 # command to install dependencies
 
 env:
+  - DJANGO=1.7
+  - DJANGO=1.8
   - DJANGO=1.9
   - DJANGO=1.10
   - DJANGO=1.11
