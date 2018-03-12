@@ -1,6 +1,4 @@
-=====================
-django-private-files
-=====================
+# django-private-files
 
 ![Travis](https://img.shields.io/travis/vvangelovski/django-private-files.svg)
 
