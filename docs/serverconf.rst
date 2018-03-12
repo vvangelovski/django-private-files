@@ -13,7 +13,7 @@ All of the bellow examples assume that:
 Apache
 ------------
 
-If you serve your static content with Apache and have mod_xsendfile you can set ``FILE_PROTECTION_METHOD`` to ``xsendfile``. Turn
+If you serve your static content with Apache and have mod_xsendfile you can set ``PRIVATE_DOWNLOAD_HANDLER`` to ``private_files.handlers.x_sendfile``. Turn
 ``XSendFile`` on and deny access to the directory where you store your protected files (the value of ``upload_to`` appended to ``MEDIA_ROOT``).
 Here's an exmple of a vhost configuration with mod_xsendfile and mod_wsgi:
 
@@ -67,14 +67,13 @@ proxies request to django running on fcgi:
 			accesslog.filename = "/var/log/lighttpd/test-access.log"
 
 			alias.url = (
-		 	   "/adminmedia" => "/home/vasil/src/django-trunk/django/contrib/admin/media/",
-		 	    "/media" => "/media/psf/Home/Projects/django-private-files/testproject/static/",
+               "/media" => "/media/psf/Home/Projects/django-private-files/testproject/static/",
 			)
 			
 			fastcgi.server = (
 		 	   "/django.fcgi" => (
 		        	"main" => (
-		          	  # Use host / port instead of socket for TCP fastcgi
+                    # Use host / port instead of socket for TCP fastcgi
 		        	"allow-x-send-file" => "enable", 
 			   	 	"host" => "127.0.0.1",
 		            "port" => 3033,
@@ -86,7 +85,6 @@ proxies request to django running on fcgi:
 			url.access-deny = ( "/media/uploads/", "/media/downloadables/" )
 
 			url.rewrite-once = (
-		 		"^(/adminmedia.*)$" => "$1",
 		 		"^(/media.*)$" => "$1",
 				"^/django.fcgi(/.*)$" => "django.fcgi$1",
 		    	"^(/.*)$" => "django.fcgi$1",
@@ -96,68 +94,55 @@ proxies request to django running on fcgi:
 
 Nginx
 -----------
-If you use nginx to serve your static files you can set the ``internal`` directive like so:
+When using Nginx ``PRIVATE_DOWNLOAD_HANDLER`` needs to be set to ``private_files.handlers.x_accel_redirect``.
+Use the ``internal`` directive like in this example:
 
 .. code-block:: nginx
 
-			http {
-			    include       mime.types;
-			    default_type  application/octet-stream;
+    http {
+        include mime.types;
+        default_type  application/octet-stream;
+        sendfile    on;
+        keepalive_timeout  65;
 
-			    sendfile        on;
+        server {
 
-				keepalive_timeout  65;
+            listen   80;
+            server_name  django.test;
 
+            location /uploads/{
+                internal;
+                root /media/psf/Home/Projects/django-private-files/testproject/static;
+            }
 
-			    server {
-			    listen   80;
-			    server_name  django.test;
+            location /downloadables/{
+                internal;
+                root /media/psf/Home/Projects/django-private-files/testproject/static;
+            }
 
-			    location /uploads/{
-			     	internal;
-			        root /media/psf/Home/Projects/django-private-files/testproject/static;
-			    } 
-			    
-			    location /downloadables/{
-    			     	internal;
-    			     	root /media/psf/Home/Projects/django-private-files/testproject/static;
-    			}
-    			
-    			
- 			   location /media/ {
-    			     	alias /media/psf/Home/Projects/django-private-files/testproject/static/;
-    			}
-                
-                
- 			   location /media/uploads/ {
- 			        deny all;
- 			    
- 			    }
- 			    
- 			    
- 			   location /media/downloadables/ {
- 			        deny all;
- 			    }
+            location /media/{
+                alias /media/psf/Home/Projects/django-private-files/testproject/static/;
+            }
 
-			    location /adminmedia {
-			        alias   /home/vasil/src/django-trunk/django/contrib/admin/media;
-			    }
+            location /media/uploads/ {
+                deny all;
+            }
 
-			    location / {
-			        # for a TCP host/port:
-			         fastcgi_pass   localhost:3033;
+            location /media/downloadables/ {
+                deny all;
+            }
 
-			        # necessary parameter
-			        fastcgi_param PATH_INFO $fastcgi_script_name;
+            location / {
+                fastcgi_pass   localhost:3033;
 
-				include fastcgi.conf;
+                fastcgi_param PATH_INFO $fastcgi_script_name;
 
-			        # to deal with POST requests
-			        fastcgi_param REQUEST_METHOD $request_method;
-			        fastcgi_param CONTENT_TYPE $content_type;
-			        fastcgi_param CONTENT_LENGTH $content_length;
+                include fastcgi.conf;
 
-			    }
-			}	
+                fastcgi_param REQUEST_METHOD $request_method;
+                fastcgi_param CONTENT_TYPE $content_type;
+                fastcgi_param CONTENT_LENGTH $content_length;
+            }
+        }
 
 

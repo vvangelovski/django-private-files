@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 ================================================
-django-private-files 0.1.1 documentation
+django-private-files 1.0.0 documentation
 ================================================
 
 This application provides utilities for controlling access to static files based on
@@ -23,8 +23,8 @@ It supports the following methods for limiting access to files:
    * xsendfile - Apache (with mod_xsendfile), lighttpd and cherokee (not tested yet)
 
 
-It's currently been tested with Django 1.3, Apache, Nginx and Lighttpd. It should work with older versions of
-django except for the example project. Cherokee uses the same mechanism as Apache mod_xsendfile and lighttpd, so
+It's currently been tested with Django (1.9, 1.10, 1.11 and 2.0), Apache, Nginx and Lighttpd. It should work with older
+versions of django. Cherokee uses the same mechanism as Apache mod_xsendfile and lighttpd, so
 it should work, but it's not been tested or documented.
 
 

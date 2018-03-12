@@ -5,13 +5,13 @@ Install from PyPI with ``easy_install`` or ``pip``:
 
 .. code-block:: bash
 
-		pip install django-private-files
+    pip install django-private-files
 
 or download the source and do:
 
 .. code-block:: bash
 
-    	python setup.py install
+		python setup.py install
 
 or if you want to hack on the code symlink to it in your site-packages:
 
@@ -20,11 +20,6 @@ or if you want to hack on the code symlink to it in your site-packages:
 		python setup.py develop
 
 In your settings.py ``INSTALLED_APPS`` add ``private_files``.
-You must specify a protection method (``basic``, ``nginx`` or ``xsendfile``) in your settings.py
-
-.. code-block:: python
-
-    	FILE_PROTECTION_METHOD = 'basic'
 
 In your urls.py add the ``private_files`` application urls:
 
