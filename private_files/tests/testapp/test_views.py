@@ -26,15 +26,29 @@ class TestFileProtection(TestCase):
         self.assertEqual(resp.status_code, 403)
 
     @override_settings(PRIVATE_DOWNLOAD_HANDLER='private_files.handlers.x_accel_redirect')
-    def test_nginx_allowed_download_status(self):
+    def test_x_accel_redirect_allowed_download_status(self):
         """Test that a user can download their owned files"""
         self.client.login(username='first', password='thepassword')
         resp = self.client.get(self.first_user_doc.attachment.url)
         self.assertEqual(resp.status_code, 200)
 
     @override_settings(PRIVATE_DOWNLOAD_HANDLER='private_files.handlers.x_accel_redirect')
-    def test_nginx_allowed_header(self):
+    def test_x_accel_redirect_allowed_header(self):
         """Test that the X-Accel-Redirect header is set correctly"""
         self.client.login(username='first', password='thepassword')
         resp = self.client.get(self.first_user_doc.attachment.url)
         self.assertEqual(resp['X-Accel-Redirect'], "/%s" % six.text_type(self.first_user_doc.attachment))
+
+    @override_settings(PRIVATE_DOWNLOAD_HANDLER='private_files.handlers.x_sendfile')
+    def test_x_sendfile_allowed_download_status(self):
+        """Test that a user can download their owned files"""
+        self.client.login(username='first', password='thepassword')
+        resp = self.client.get(self.first_user_doc.attachment.url)
+        self.assertEqual(resp.status_code, 200)
+
+    @override_settings(PRIVATE_DOWNLOAD_HANDLER='private_files.handlers.x_sendfile')
+    def test_x_sendfile_allowed_header(self):
+        """Test that the X-Sendfile header is set correctly"""
+        self.client.login(username='first', password='thepassword')
+        resp = self.client.get(self.first_user_doc.attachment.url)
+        self.assertEqual(resp['X-Sendfile'], self.first_user_doc.attachment.path)

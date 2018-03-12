@@ -8,7 +8,7 @@ from .signals import pre_download
 __author__ = 'vvangelovski'
 default_app_config = 'private_files.apps.PrivateFilesConfig'
 
-VERSION = __version__ = (1, 0, 0, 'alpha', 0)
+VERSION = __version__ = (1, 0, 0, 'final', 0)
 NAME = 'django-private-files'
 
 
