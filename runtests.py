@@ -9,6 +9,11 @@ def main():
     django.setup()
 
     from django.core.management import call_command
+    from django.conf import settings
+    try:
+        settings.configure()
+    except RuntimeError:
+        pass
     call_command('test')
 
 if __name__ == '__main__':
