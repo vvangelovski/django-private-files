@@ -2,6 +2,7 @@
 django-private-files
 =====================
 
+.. image:: https://img.shields.io/travis/vvangelovski/django-private-files.svg   :alt: Travis
 
 This application provides utilities for controlling access to static files based on
 conditions you can specify within your Django application.
