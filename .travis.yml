@@ -6,7 +6,7 @@ python:
   - "3.7-dev"  # 3.7 development branch
 # command to install dependencies
 install:
-  - pip install -r tests/requirements/django-1.11.txt
+  - pip install -r private_files/tests/requirements/django-1.11.txt
 # command to run tests
 script:
   - ./runtests.py
