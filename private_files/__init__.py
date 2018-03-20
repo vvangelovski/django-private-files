@@ -2,18 +2,22 @@ from __future__ import absolute_import, unicode_literals
 import subprocess
 import datetime
 import os
-from .models.fields import PrivateFileField
-from .signals import pre_download
+
 
 __author__ = 'vvangelovski'
 default_app_config = 'private_files.apps.PrivateFilesConfig'
 
-VERSION = __version__ = (1, 0, 0, 'final', 0)
+VERSION = __version__ = (1, 0, 1, 'final', 0)
 NAME = 'django-private-files'
 
+# don't fail installing before django
+try:
+    from .models.fields import PrivateFileField
+    from .signals import pre_download
 
-__all__ = ['PrivateFileField', 'pre_download']
-
+    __all__ = ['PrivateFileField', 'pre_download']
+except ImportError:
+    pass
 
 def get_version(version=None):
     """Derives a PEP386-compliant version number from VERSION."""
