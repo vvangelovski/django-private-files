@@ -42,7 +42,7 @@ class PrivateFieldFile(FieldFile):
 
 
 def is_user_authenticated(request, instance):
-    return (not request.user.is_anonymous()) and request.user.is_authenticated
+    return (not request.user.is_anonymous) and request.user.is_authenticated
 
 
 class PrivateFileField(FileField):
